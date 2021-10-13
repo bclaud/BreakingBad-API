@@ -50,7 +50,6 @@ public class PersonaUserServiceImpl implements PersonaUseCase {
     @Override
     public Optional<FavPersona> findFavById(Long id) {
         return favoritesRepository.findById(id).stream()
-        .filter(persona -> persona.getFavorite().equals(true))
         .findFirst();
     }
 
@@ -58,7 +57,7 @@ public class PersonaUserServiceImpl implements PersonaUseCase {
     public FavPersona changeFavorite(FavPersona favPersona) {
         //TODO Melhorar este codigo
         FavPersona personaToPatch = favoritesRepository.findById(favPersona.getId()).get();
-        personaToPatch.setFavorite(false);
+        personaToPatch.setFavorite(favPersona.getFavorite());
         favoritesRepository.save(personaToPatch);
         return personaToPatch;
     }

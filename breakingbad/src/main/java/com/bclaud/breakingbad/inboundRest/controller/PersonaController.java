@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.bclaud.breakingbad.core.port.in.PersonaUseCase;
+import com.bclaud.breakingbad.inboundRest.inboundDto.FavPersonaInputDto;
 import com.bclaud.breakingbad.inboundRest.inboundDto.FavPersonaOutPutDto;
 import com.bclaud.breakingbad.inboundRest.inboundDto.PersonaOutPutDto;
 import com.bclaud.breakingbad.inboundRest.mapper.OutPutMapper;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/characters")
+@RequestMapping("/api/v1")
 public class PersonaController {
 
     @Autowired
@@ -29,54 +30,56 @@ public class PersonaController {
     @Autowired
     OutPutMapper outPutMapper;
     
-    @GetMapping
+    @GetMapping("/characters")
     public List<PersonaOutPutDto> findAll() {
         return personaService.findAll().stream()
         .map(model -> outPutMapper.personaToPersonaOutPutDto(model))
         .collect(Collectors.toList());
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/characters/{id}")
     public ResponseEntity<PersonaOutPutDto> findById(@PathVariable Long id){
         PersonaOutPutDto dto = personaService.findById(id).stream()
         .map(model -> outPutMapper.personaToPersonaOutPutDto(model))
         .findFirst()
         .orElseThrow(RuntimeException::new);
-        // TODO fazer retornar 404 com excessao customizada
+        // TODO fazer retornar 404 com excecao customizada
 
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping(value = "/fav/{id}")
+    @PostMapping(value = "/favorites/{id}")
     public FavPersonaOutPutDto favoritePersona(@PathVariable Long id){
         return outPutMapper.favPersonaToFavPersonaOutPutDto(personaService.saveFavorite(id));
     }
 
-    @GetMapping(value = "/fav")
+    @PatchMapping(value = "/favorites")
+    public ResponseEntity<FavPersonaOutPutDto> changeFavorite(@RequestBody FavPersonaInputDto inPutDto){
+        FavPersonaOutPutDto outPutDto = outPutMapper.favPersonaToFavPersonaOutPutDto(personaService.changeFavorite(outPutMapper.favPersonaInPutDtoToFavPersona(inPutDto)));
+
+        return ResponseEntity.ok(outPutDto);
+    }
+    
+    @GetMapping(value = "/favorites")
     public List<FavPersonaOutPutDto> listAllFav(){
         return personaService.findAllFav().stream()
         .map(model -> outPutMapper.favPersonaToFavPersonaOutPutDto(model))
         .collect(Collectors.toList());
     }
+    
 
-    @GetMapping(value = "/fav/{id}")
+    @GetMapping(value = "/favorites/{id}")
     public ResponseEntity<FavPersonaOutPutDto> findFavById(@PathVariable Long id){
         FavPersonaOutPutDto dto = personaService.findFavById(id).stream()
         .map(model -> outPutMapper.favPersonaToFavPersonaOutPutDto(model))
         .findFirst()
         .orElseThrow(RuntimeException::new);
-        // TODO fazer retornar 404 com excessao customizada
+        // TODO fazer retornar 404 com excecao customizada
 
         return ResponseEntity.ok(dto);
     }
 
-    @PatchMapping(value = "/fav")
-    public ResponseEntity<FavPersonaOutPutDto> changeFavorite(@RequestBody FavPersonaOutPutDto dto){
-        personaService.changeFavorite(outPutMapper.favPersonaOutPutDtoToFavPersona(dto));
-
-        return ResponseEntity.ok(dto);
-    }
     
 }
 
-//TODO corrigir os verbos HTTP com responseEntity e excessoes corretas
+//TODO corrigir os verbos HTTP com responseEntity e excecao corretas
