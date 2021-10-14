@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.bclaud.breakingbad.core.exceptions.PersonaExceptions;
 import com.bclaud.breakingbad.core.models.FavPersona;
 import com.bclaud.breakingbad.core.models.Persona;
 import com.bclaud.breakingbad.core.port.in.PersonaUseCase;
@@ -32,9 +33,10 @@ public class PersonaUserServiceImpl implements PersonaUseCase {
     }
 
     @Override
-    public FavPersona saveFavorite(Long id) {
-        //TODO Teria como utilizar esse optional de forma mais declarativa?
-        FavPersona favPersona = new FavPersona(findById(id).get());
+    public FavPersona saveFavorite(Long id) throws PersonaExceptions {
+        FavPersona favPersona = new FavPersona(findById(id).
+        orElseThrow(() -> new PersonaExceptions("Resource not found id: " + id)));
+
         favPersona.setFavorite(true);
         favoritesRepository.save(favPersona);
         return favPersona;
