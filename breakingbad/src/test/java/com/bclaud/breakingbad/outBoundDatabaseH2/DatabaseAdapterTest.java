@@ -49,7 +49,7 @@ public class DatabaseAdapterTest {
     }
 
     @Test
-    void testFindAll() {
+    void findAll_ReturnListOfFavPersona() {
         when(repository.findAll()).thenReturn(List.of(favPersonaEntity));
         when(databaseMapper.favPersonaEntityToFavPersona(favPersonaEntity)).thenReturn(favPersona);
 
@@ -57,7 +57,7 @@ public class DatabaseAdapterTest {
     }
 
     @Test
-    void testFindById() {
+    void findById_ReturnFavPersona() {
         when(repository.findById(1L)).thenReturn(Optional.of(favPersonaEntity));
         when(databaseMapper.favPersonaEntityToFavPersona(favPersonaEntity)).thenReturn(favPersona);
 
@@ -65,7 +65,7 @@ public class DatabaseAdapterTest {
     }
 
     @Test
-    void testSave() {
+    void save_ReturnFavPersona() {
         assertEquals(favPersona, adapter.save(favPersona));
     }
 }

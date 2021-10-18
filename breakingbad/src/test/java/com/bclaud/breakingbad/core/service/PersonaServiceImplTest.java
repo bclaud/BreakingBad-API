@@ -56,7 +56,7 @@ public class PersonaServiceImplTest {
     }
 
     @Test
-    void testChangeFavorite() {
+    void changeFavorite_ReturnFalseNewFavPersona() {
         FavPersona newFavPersona = new FavPersona(persona);
         newFavPersona.setFavorite(false);
 
@@ -66,35 +66,35 @@ public class PersonaServiceImplTest {
     }
 
     @Test
-    void testFindAll() {
+    void findAll_ReturnListOfPersona() {
         when(client.findAll()).thenReturn(List.of(persona));
 
         assertEquals(1, service.findAll().size());
     }
 
     @Test
-    void testFindAllFav() {
+    void findAllFav_ReturnListOfFavPersona() {
         when(repository.findAll()).thenReturn(List.of(favPersona));
 
         assertEquals(1, service.findAllFav().size());
     }
 
     @Test
-    void testFindById() {
+    void findById_ReturnPersonaById() {
         when(client.findById(1L)).thenReturn(Optional.of(persona));
         
         assertEquals(client.findById(1L).get(), service.findById(1L));
     }
     
     @Test
-    void testFindFavById() {
+    void findFavById_ReturnFavPersonaById() {
         when(repository.findById(1L)).thenReturn(Optional.of(favPersona));
 
         assertEquals(repository.findById(1L).get(), service.findFavById(1L));
     }
 
     @Test
-    void testSaveFavorite() {
+    void saveFavorite_ReturnFavPersona() {
         when(client.findById(1L)).thenReturn(Optional.of(persona));
         
         assertEquals(favPersona.getName(), service.saveFavorite(1L).getName());

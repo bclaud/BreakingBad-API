@@ -61,7 +61,7 @@ public class BreakingBadAPIAdapterTest {
     
 
     @Test
-    void testFindAll() {
+    void findAll_ReturnListOfPersona() {
         when(client.findAll()).thenReturn(List.of(dto));
         when(clientMapper.personaDtoToPersona(dto)).thenReturn(persona);
 
@@ -69,7 +69,7 @@ public class BreakingBadAPIAdapterTest {
     }
 
     @Test
-    void testFindById() {
+    void findById_ReturnPersona() {
         when(client.findById(1L)).thenReturn(List.of(dto));
         when(clientMapper.personaDtoToPersona(dto)).thenReturn(persona);
 
