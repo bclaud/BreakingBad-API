@@ -30,24 +30,21 @@ public class PersonaController {
     OutPutMapper outPutMapper;
 
     @GetMapping("/characters")
-    public List<PersonaOutPutDto> findAll() {
-        return personaService.findAll().stream().map(model -> outPutMapper.personaToPersonaOutPutDto(model))
-                .collect(Collectors.toList());
+    public ResponseEntity<List<PersonaOutPutDto>> findAll() {
+        return ResponseEntity.ok(personaService.findAll().stream()
+                .map(model -> outPutMapper.personaToPersonaOutPutDto(model)).collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/characters/{id}")
     public ResponseEntity<PersonaOutPutDto> findById(@PathVariable Long id) {
-        PersonaOutPutDto dto = personaService.findById(id).stream()
-                .map(model -> outPutMapper.personaToPersonaOutPutDto(model)).findFirst()
-                .orElseThrow(RuntimeException::new);
-        // TODO fazer retornar 404 com excecao customizada
+        PersonaOutPutDto dto = outPutMapper.personaToPersonaOutPutDto(personaService.findById(id));
 
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping(value = "/favorites/{id}")
-    public FavPersonaOutPutDto favoritePersona(@PathVariable Long id) {
-        return outPutMapper.favPersonaToFavPersonaOutPutDto(personaService.saveFavorite(id));
+    public ResponseEntity<FavPersonaOutPutDto> favoritePersona(@PathVariable Long id) {
+        return ResponseEntity.ok(outPutMapper.favPersonaToFavPersonaOutPutDto(personaService.saveFavorite(id)));
     }
 
     @PatchMapping(value = "/favorites")
@@ -59,21 +56,16 @@ public class PersonaController {
     }
 
     @GetMapping(value = "/favorites")
-    public List<FavPersonaOutPutDto> listAllFav() {
-        return personaService.findAllFav().stream().map(model -> outPutMapper.favPersonaToFavPersonaOutPutDto(model))
-                .collect(Collectors.toList());
+    public ResponseEntity<List<FavPersonaOutPutDto>> listAllFav() {
+        return ResponseEntity.ok(personaService.findAllFav().stream()
+                .map(model -> outPutMapper.favPersonaToFavPersonaOutPutDto(model)).collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/favorites/{id}")
     public ResponseEntity<FavPersonaOutPutDto> findFavById(@PathVariable Long id) {
-        FavPersonaOutPutDto dto = personaService.findFavById(id)        
-                .map(model -> outPutMapper.favPersonaToFavPersonaOutPutDto(model))
-                .orElseThrow(RuntimeException::new);
-        // TODO fazer retornar 404 com excecao customizada
+        FavPersonaOutPutDto dto = outPutMapper.favPersonaToFavPersonaOutPutDto(personaService.findFavById(id));
 
         return ResponseEntity.ok(dto);
     }
 
 }
-
-// TODO corrigir os verbos HTTP com responseEntity e excecao corretas

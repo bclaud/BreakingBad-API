@@ -90,7 +90,7 @@ public class FavPersona {
 
     @Override
     public String toString() {
-        return "FavCharacter [favorite=" + favorite + ", id=" + id + ", name=" + name + ", occupation="
+        return "FavPersona [favorite=" + favorite + ", id=" + id + ", name=" + name + ", occupation="
                 + occupation + "]";
     }
 }

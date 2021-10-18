@@ -1,10 +1,10 @@
 package com.bclaud.breakingbad.core.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.bclaud.breakingbad.core.exceptions.PersonaExceptions;
+import com.bclaud.breakingbad.core.exceptions.ResourceNotFoundException;
 import com.bclaud.breakingbad.core.models.FavPersona;
 import com.bclaud.breakingbad.core.models.Persona;
 import com.bclaud.breakingbad.core.port.in.PersonaUseCase;
@@ -16,8 +16,7 @@ public class PersonaUserServiceImpl implements PersonaUseCase {
     private final FavPersonaOutboundDatabase favoritesRepository;
     private final PersonaOutBoundClient personaClient;
 
-    public PersonaUserServiceImpl(final FavPersonaOutboundDatabase repository,
-    PersonaOutBoundClient client){
+    public PersonaUserServiceImpl(final FavPersonaOutboundDatabase repository, PersonaOutBoundClient client) {
         this.favoritesRepository = repository;
         this.personaClient = client;
     }
@@ -28,14 +27,13 @@ public class PersonaUserServiceImpl implements PersonaUseCase {
     }
 
     @Override
-    public Optional<Persona> findById(Long id) {
-        return personaClient.findById(id);
+    public Persona findById(Long id) throws PersonaExceptions {
+        return personaClient.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @Override
     public FavPersona saveFavorite(Long id) throws PersonaExceptions {
-        FavPersona favPersona = new FavPersona(findById(id).
-        orElseThrow(() -> new PersonaExceptions("Resource not found id: " + id)));
+        FavPersona favPersona = new FavPersona(findById(id));
 
         favPersona.setFavorite(true);
         favoritesRepository.save(favPersona);
@@ -44,24 +42,24 @@ public class PersonaUserServiceImpl implements PersonaUseCase {
 
     @Override
     public List<FavPersona> findAllFav() {
-        return favoritesRepository.findAll().stream()
-        .filter(persona -> persona.getFavorite().equals(true))
-        .collect(Collectors.toList());
+        return favoritesRepository.findAll().stream().filter(persona -> persona.getFavorite().equals(true))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<FavPersona> findFavById(Long id) {
-        return favoritesRepository.findById(id).stream()
-        .findFirst();
+    public FavPersona findFavById(Long id) throws PersonaExceptions {
+        return favoritesRepository.findById(id).stream().findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @Override
-    public FavPersona changeFavorite(FavPersona favPersona) {
-        //TODO Melhorar este codigo
-        FavPersona personaToPatch = favoritesRepository.findById(favPersona.getId()).get();
+    public FavPersona changeFavorite(FavPersona favPersona) throws PersonaExceptions {
+        // TODO Melhorar este codigo
+        FavPersona personaToPatch = favoritesRepository.findById(favPersona.getId())
+                .orElseThrow(() -> new ResourceNotFoundException(favPersona.getId()));
+
         personaToPatch.setFavorite(favPersona.getFavorite());
         favoritesRepository.save(personaToPatch);
         return personaToPatch;
     }
-    
 }
