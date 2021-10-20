@@ -48,8 +48,7 @@ public class PersonaUserServiceImpl implements PersonaUseCase {
 
     @Override
     public FavPersona findFavById(Long id) throws PersonaExceptions {
-        return favoritesRepository.findById(id).stream().findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+        return favoritesRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @Override
