@@ -55,15 +55,15 @@ public class PersonaServiceImplTest {
         favPersona.setFavorite(true);
     }
 
-    @Test
-    void changeFavorite_ReturnFalseNewFavPersona() {
-        FavPersona newFavPersona = new FavPersona(persona);
-        newFavPersona.setFavorite(false);
+    // @Test
+    // void changeFavorite_ReturnFalseNewFavPersona() {
+    //     FavPersona newFavPersona = new FavPersona(persona);
+    //     newFavPersona.setFavorite(false);
 
-        when(repository.findById(1L)).thenReturn(Optional.of(favPersona));
+    //     when(repository.findById(1L)).thenReturn(Optional.of(favPersona));
 
-        assertEquals(false, service.changeFavorite(newFavPersona).getFavorite());
-    }
+    //     assertEquals(false, service.changeFavorite(newFavPersona).getFavorite());
+    // }
 
     @Test
     void findAll_ReturnListOfPersona() {

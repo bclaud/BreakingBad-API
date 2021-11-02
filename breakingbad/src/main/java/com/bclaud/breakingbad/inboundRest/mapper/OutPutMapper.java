@@ -2,6 +2,7 @@ package com.bclaud.breakingbad.inboundRest.mapper;
 
 import com.bclaud.breakingbad.core.models.FavPersona;
 import com.bclaud.breakingbad.core.models.Persona;
+import com.bclaud.breakingbad.core.service.dto.FavPersonaPatch;
 import com.bclaud.breakingbad.inboundRest.inboundDto.FavPersonaInputDto;
 import com.bclaud.breakingbad.inboundRest.inboundDto.FavPersonaOutPutDto;
 import com.bclaud.breakingbad.inboundRest.inboundDto.PersonaOutPutDto;
@@ -22,5 +23,7 @@ public interface OutPutMapper {
     FavPersona favPersonaInPutDtoToFavPersona(FavPersonaInputDto dto);
     
     FavPersonaInputDto favPersonaToFavPersonaInPutDto(FavPersona model);
+
+    FavPersonaPatch favPersonaInputDtoToFavPersonaPatch(FavPersonaInputDto dto);
 
 }

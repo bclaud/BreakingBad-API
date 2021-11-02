@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.bclaud.breakingbad.core.models.FavPersona;
 import com.bclaud.breakingbad.core.port.out.FavPersonaOutboundDatabase;
+import com.bclaud.breakingbad.core.service.dto.FavPersonaPatch;
 import com.bclaud.breakingbad.outBoundDatabaseH2.dataBaseMapper.DataBaseMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,9 @@ public class DatabaseAdapter implements FavPersonaOutboundDatabase {
         .map(entity -> databaseMapper.favPersonaEntityToFavPersona(entity))
         .findFirst();
     }
-    
+
+    @Override
+    public void updateFavPersonaFavorite(FavPersonaPatch patch) {
+        repository.updateFavPersonaFavorite(patch.getId(), patch.getFavorite());
+    }
 }

@@ -10,6 +10,7 @@ import com.bclaud.breakingbad.core.models.Persona;
 import com.bclaud.breakingbad.core.port.in.PersonaUseCase;
 import com.bclaud.breakingbad.core.port.out.FavPersonaOutboundDatabase;
 import com.bclaud.breakingbad.core.port.out.PersonaOutBoundClient;
+import com.bclaud.breakingbad.core.service.dto.FavPersonaPatch;
 
 public class PersonaUserServiceImpl implements PersonaUseCase {
 
@@ -52,13 +53,10 @@ public class PersonaUserServiceImpl implements PersonaUseCase {
     }
 
     @Override
-    public FavPersona changeFavorite(FavPersona favPersona) throws PersonaExceptions {
-        // TODO Melhorar este codigo
-        FavPersona personaToPatch = favoritesRepository.findById(favPersona.getId())
-                .orElseThrow(() -> new ResourceNotFoundException(favPersona.getId()));
+    public FavPersona changeFavorite(FavPersonaPatch patch) throws PersonaExceptions {
+        favoritesRepository.updateFavPersonaFavorite(patch);
 
-        personaToPatch.setFavorite(favPersona.getFavorite());
-        favoritesRepository.save(personaToPatch);
-        return personaToPatch;
+        return favoritesRepository.findById(patch.getId())
+        .orElseThrow(() -> new ResourceNotFoundException(patch.getId()));
     }
 }

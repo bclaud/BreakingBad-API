@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bclaud.breakingbad.core.models.FavPersona;
 import com.bclaud.breakingbad.core.models.Persona;
+import com.bclaud.breakingbad.core.service.dto.FavPersonaPatch;
 
 public interface PersonaUseCase {
     
@@ -17,5 +18,5 @@ public interface PersonaUseCase {
 
     FavPersona findFavById(Long id);
 
-    FavPersona changeFavorite(FavPersona favPersona);
+    FavPersona changeFavorite(FavPersonaPatch patch);
 }

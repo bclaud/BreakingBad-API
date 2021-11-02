@@ -50,7 +50,7 @@ public class PersonaController {
     @PatchMapping(value = "/favorites")
     public ResponseEntity<FavPersonaOutPutDto> changeFavorite(@RequestBody FavPersonaInputDto inPutDto) {
         FavPersonaOutPutDto outPutDto = outPutMapper.favPersonaToFavPersonaOutPutDto(
-                personaService.changeFavorite(outPutMapper.favPersonaInPutDtoToFavPersona(inPutDto)));
+                personaService.changeFavorite(outPutMapper.favPersonaInputDtoToFavPersonaPatch(inPutDto)));
 
         return ResponseEntity.ok(outPutDto);
     }
