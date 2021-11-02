@@ -48,11 +48,10 @@ public class PersonaController {
     }
 
     @PatchMapping(value = "/favorites")
-    public ResponseEntity<FavPersonaOutPutDto> changeFavorite(@RequestBody FavPersonaInputDto inPutDto) {
-        FavPersonaOutPutDto outPutDto = outPutMapper.favPersonaToFavPersonaOutPutDto(
-                personaService.changeFavorite(outPutMapper.favPersonaInputDtoToFavPersonaPatch(inPutDto)));
+    public FavPersonaOutPutDto changeFavorite(@RequestBody FavPersonaInputDto inPutDto) {
+        personaService.changeFavorite(outPutMapper.favPersonaInputDtoToFavPersonaPatch(inPutDto));
 
-        return ResponseEntity.ok(outPutDto);
+        return outPutMapper.favPersonaToFavPersonaOutPutDto(personaService.findFavById(inPutDto.getId()));
     }
 
     @GetMapping(value = "/favorites")
