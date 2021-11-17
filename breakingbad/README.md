@@ -1,16 +1,46 @@
 ## Breaking Bad API
 
-**Endpoints**
+An application to consume Breaking Bad API and to favorite characters from that.
 
-GET em /api/v1/characters: Retorna em lista todos os personagens de Breaking Bad
+## Requirements
+- JDK-11
+- Lombok plugin for your IDE
+- git
 
-GET em /api/v1/characters/{id}: Retorna o personagem do respectivo ID
+or
 
-POST em /api/v1/favorites/{id}: favorita o personagem do respectivo ID
+- Docker properly installed if you want to run using the available docker image
 
-PATCH em /api/v1/favorites: aceita formatado JSON com os atributos id(int) e favorite(boolean)
+## Install and run the app
 
-GET em /api/v1/favorites: retorna todos os favoritos
+With the source code:
+```bash
+git clone git@github.com:bclaud/arquitetura-hexagonal.git
+cd arquitetura-hexagonal/breakingbad
+./mvnw spring-boot:run
+```
 
-GET em /api/v1/favorites/{id}: retorna o personagem favorito do respectivo ID
+With docker image 
+```bash
+docker run -p 8080:8080 -d --name breakingbadApi baclaud/breakingbad:latest
+```
 
+## Endpoints
+
+GET in /api/v1/characters: returns a list of all characters from breaking bad
+
+GET in /api/v1/characters/{id}: returns the character from given ID
+
+POST in /api/v1/favorites/{id}: favorites and returns a character from given ID
+
+PATCH in /api/v1/favorites: Receives a json body with id(int) and favorite(boolean) to updated a favorited character
+
+GET in /api/v1/favorites: returns a list with all favorited characters
+
+GET in /api/v1/favorites/{id}: returns the favorite character from given ID
+
+## Specifications 
+
+You can check and test every specification in {{baseURL}}/swagger-ui/ while the app is running.
+
+There is also a postman collection available in resources package of the project
