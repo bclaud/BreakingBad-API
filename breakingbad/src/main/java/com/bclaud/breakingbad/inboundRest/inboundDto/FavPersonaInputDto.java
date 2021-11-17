@@ -1,5 +1,6 @@
 package com.bclaud.breakingbad.inboundRest.inboundDto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class FavPersonaInputDto {
     
-    private Long id;
-    private Boolean favorite;
+    @ApiModelProperty(value = "valid ID of an favorited character", example = "1") private Long id;
+    @ApiModelProperty(value = "False to unfavorite and false to refavorite", example = "false")private Boolean favorite;
 }
