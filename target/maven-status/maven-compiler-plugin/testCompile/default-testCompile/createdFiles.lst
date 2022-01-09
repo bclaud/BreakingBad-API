@@ -1,0 +1,4 @@
+com/bclaud/breakingbad/outboundbreakingbadapi/client/BreakingBadAPIAdapterTest.class
+com/bclaud/breakingbad/outBoundDatabaseH2/DatabaseAdapterTest.class
+com/bclaud/breakingbad/BreakingbadApplicationTests.class
+com/bclaud/breakingbad/core/service/PersonaServiceImplTest.class
